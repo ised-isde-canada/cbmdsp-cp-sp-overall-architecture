@@ -20,7 +20,7 @@ cp DockerFile $TARGET_DIR
 cp startService.sh $TARGET_DIR
 cd $TARGET_DIR
 
-docker build --no-cache --build-arg build-id=$BUILD_ID -t $DOCKERHUB_ORG/$CONTAINER_IMAGE -f DockerFile .
+docker build --no-cache --build-arg build-id=$BUILD_ID -t $DOCKERHUB_ORG/$CONTAINER_IMAGE -f Dockerfile .
 
 docker tag $DOCKERHUB_ORG/$CONTAINER_IMAGE $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 
