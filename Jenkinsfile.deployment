@@ -1,0 +1,24 @@
+@Library("ised-cicd-lib") _
+
+pipeline {
+	agent none
+   	
+    options {
+        disableConcurrentBuilds()
+    }
+   	
+   	environment {
+		// GLobal Vars
+		IMAGE_NAME = "cbmdsp-cp-sp-overall-architecture"
+    }
+
+    stages {
+    	stage('deploy') {
+			steps {
+				script {
+   					deploy("${IMAGE_NAME}", true)
+    			}
+    		}
+    	}
+    }
+}
