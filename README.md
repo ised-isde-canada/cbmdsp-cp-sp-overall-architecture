@@ -1,6 +1,9 @@
 # Documentation
 https://wiki.ised-isde.canada.ca/display/DTSSBLSD/Cloud+Native+Development#CloudNativeDevelopment-RunaSpringBootDockerContainer
 
+# URLs
+http://cbmdsp-cp-sp-overall-architecture-cb-cbmdsp-dev.apps.ocp.dev.ised-isde.canada.ca/swagger-ui.html#/health-api-controller/health
+
 # OpenAPI generated server
 
 Spring Boot Server 
