@@ -9,7 +9,7 @@
 
 BUILD_ID=10001
 BUILD_DIR=builds
-DOCKERHUB_ORG=isedc
+#DOCKERHUB_ORG=isedc
 mkdir ../../$BUILD_DIR
 TARGET_DIR=../../$BUILD_DIR/$BUILD_ID
 mkdir $TARGET_DIR
@@ -23,12 +23,16 @@ cp DockerFile $TARGET_DIR
 cp startService.sh $TARGET_DIR
 cd $TARGET_DIR
 
-docker build --no-cache --build-arg build-id=$BUILD_ID -t $DOCKERHUB_ORG/$CONTAINER_IMAGE -f DockerFile .
+docker build --no-cache --build-arg build-id=$BUILD_ID -t $CONTAINER_IMAGE -f DockerFile .
+docker tag $CONTAINER_IMAGE $CONTAINER_IMAGE:0.0.1
 
-docker tag $DOCKERHUB_ORG/$CONTAINER_IMAGE $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
+# dockerhub only
 
-# dockerhub
+
+#docker build --no-cache --build-arg build-id=$BUILD_ID -t $DOCKERHUB_ORG/$CONTAINER_IMAGE -f DockerFile .
+#docker tag $DOCKERHUB_ORG/$CONTAINER_IMAGE $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 #docker push $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
+
 # locally
 docker stop $CONTAINER_IMAGE
 # will throw a warning on first run
@@ -38,7 +42,7 @@ docker run --name $CONTAINER_IMAGE \
     -d -p 8888:8080 \
     -e os.environment.configuration.dir=/ \
     -e os.environment.ecosystem=sbx \
-    $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
+    $CONTAINER_IMAGE:0.0.1
 #    $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 
 cd ../../src/docker
