@@ -1,7 +1,7 @@
 #FROM anapsix/alpine-java:jre8
 FROM openjdk:11
 
-ARG USERVICE_HOME=/opt/app/
+ARG USERVICE_HOME=/opt/app
 
 # Build up the deployment folder structure
 RUN mkdir -p $USERVICE_HOME
