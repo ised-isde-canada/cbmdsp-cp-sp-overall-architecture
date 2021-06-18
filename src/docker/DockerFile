@@ -8,5 +8,5 @@ RUN mkdir -p $USERVICE_HOME
 
 #ADD nbi-stub-*.jar $USERVICE_HOME/lib/api-backend-stub.jar
 #ADD startService.sh $USERVICE_HOME/bin/
-COPY nbi-stub-*.jar /opt/app/ROOT.jar
+COPY cb*.jar /opt/app/ROOT.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/opt/app/ROOT.jar"]
