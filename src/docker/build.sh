@@ -16,7 +16,7 @@ mkdir $TARGET_DIR
 CONTAINER_IMAGE=api-backend-stub
 cd ../../
 
-#mvn clean install -DskipTests=true -U
+mvn clean install -DskipTests=true -U
 cd src/docker
 cp ../../target/*.jar $TARGET_DIR
 cp DockerFile $TARGET_DIR
