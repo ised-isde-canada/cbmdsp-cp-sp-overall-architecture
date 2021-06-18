@@ -3,6 +3,8 @@
 # 20210203
 # run from within docker subdir
 # login to dockerhub before running - make sure you are in the isedc organization
+# Note: this script is for local dev/deployment
+# use the Dockerfile at the root for official Jenkins OCP deployment
 #docker login --username obrienlabs
 
 BUILD_ID=10001
@@ -13,19 +15,20 @@ TARGET_DIR=../../$BUILD_DIR/$BUILD_ID
 mkdir $TARGET_DIR
 CONTAINER_IMAGE=api-backend-stub
 cd ../../
-mvn clean install -DskipTests=true -U
+
+#mvn clean install -DskipTests=true -U
 cd src/docker
 cp ../../target/*.jar $TARGET_DIR
 cp DockerFile $TARGET_DIR
 cp startService.sh $TARGET_DIR
 cd $TARGET_DIR
 
-docker build --no-cache --build-arg build-id=$BUILD_ID -t $DOCKERHUB_ORG/$CONTAINER_IMAGE -f Dockerfile .
+docker build --no-cache --build-arg build-id=$BUILD_ID -t $DOCKERHUB_ORG/$CONTAINER_IMAGE -f DockerFile .
 
 docker tag $DOCKERHUB_ORG/$CONTAINER_IMAGE $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 
 # dockerhub
-docker push $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
+#docker push $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 # locally
 docker stop $CONTAINER_IMAGE
 # will throw a warning on first run
@@ -36,6 +39,7 @@ docker run --name $CONTAINER_IMAGE \
     -e os.environment.configuration.dir=/ \
     -e os.environment.ecosystem=sbx \
     $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
+#    $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 
 cd ../../src/docker
 
