@@ -42,4 +42,9 @@ docker run --name $CONTAINER_IMAGE \
 #    $DOCKERHUB_ORG/$CONTAINER_IMAGE:0.0.1
 
 cd ../../src/docker
+echo "sleep 3 sec"
+sleep 3
+echo "run a 8888/v1/health/ endpoint to check the container"
+
+curl -X GET "http://127.0.0.1:8888/v1/health/" -H "accept: application/json"
 

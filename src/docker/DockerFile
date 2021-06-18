@@ -1,12 +1,11 @@
-FROM anapsix/alpine-java:jre8
-#FROM openjdk:11
+#FROM anapsix/alpine-java:jre8
+FROM openjdk:11
 
 ARG USERVICE_HOME=/opt/app/
 
 # Build up the deployment folder structure
 RUN mkdir -p $USERVICE_HOME
 
-#ADD nbi-stub-*.jar $USERVICE_HOME/lib/api-backend-stub.jar
-#ADD startService.sh $USERVICE_HOME/bin/
-COPY cb*.jar /opt/app/ROOT.jar
+ADD startService.sh $USERVICE_HOME/bin/
+COPY cb*.jar $USERVICE_HOME/ROOT.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/opt/app/ROOT.jar"]
