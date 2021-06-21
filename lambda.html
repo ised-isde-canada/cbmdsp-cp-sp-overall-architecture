@@ -1,0 +1,83 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>         
+<script type="text/javascript">         
+$(document).ready(function() {                      
+	$("#submit").click(function(e) {
+//		$("#upload").click(function(e) {
+	    e.preventDefault();                          
+	    var name = $("#name").val(),                     
+	    email = $("#email").val(),                     
+	    metadata = $("#metadata").val();
+	    var presigned;
+	    
+	    // get presigned url - turn on/deploy CORS on the APIGW end
+
+	    $.ajax({                     
+	            type: "GET",                     
+	            url: 'https://kvzryfi6hc.execute-api.us-west-2.amazonaws.com/test',  
+	            contentType: 'application/json',
+	                success: function(res){   
+	                	presigned=res.upload_url;
+	                	alert(presigned);
+	                    $('#presignedurl').html('<div class="alert alert-info" role="alert">' 
+	                    		+ res.upload_url
+	                    		+ '</div>');},                     
+	                    error: function(){
+	                           $('#presignedurl').html('<div class="alert alert-info" role="alert">Issues with your signed URL....</div>');                     
+	                           }
+	                    });       
+        
+        // PUT file to S3 
+	    //Screen Shot 2021-05-07 at 14.20.00.png
+        $.ajax({                     
+                type: "PUT",        
+                timeout: 50000,
+                url: presigned,  
+                contentType: 'application/json',
+                    success: function(res){   
+                        $('#presignedurlstatus').html('<div class="alert alert-info" role="alert">' 
+                                + 'upload OK'
+                                + '</div>');},                     
+                        error: function(){
+                               $('#presignedurlstatus').html('<div class="alert alert-info" role="alert">Issues with your presigned upload....</div>');                     
+                               }
+                        }); 	    
+	    
+        // post message and email on upload starting	    
+	    $.ajax({                     
+	        type: "POST",                   
+	        url: 'https://o2d2a1yr22.execute-api.us-west-2.amazonaws.com/test', 
+	        contentType: 'application/json',      
+	        data: JSON.stringify({                         
+	            'name': name,                         
+	            'email': email,                         
+	            'metadata': metadata                     
+	            }),                     
+	            success: function(res){                         
+	                $('#form-response').html('<div class="alert alert-info" role="alert">Processing your upload...</div>');},                     
+	                error: function(){
+	                	   $('#form-response').html('<div class="alert alert-info" role="alert">Issues with your upload....</div>');                     
+	                	   }
+	                });
+        }) 
+        });      
+</script>
+<form method="post" action="" enctype="multipart/form-data" id="myform">
+<div class="form-label-group"> 
+<input type="text" id="name" class="form-control" required> 
+<label for="name" class="control-label">Name</label> 
+</div> 
+<div class="form-label-group"> 
+<input type="text" id="email" class="form-control" required> 
+<label for="email" class="control-label">Email address</label> </div> 
+<div class="form-label-group"> 
+<textarea id="metadata" name="metadata" rows="5" class="form-control" placeholder="metadata"></textarea>
+</div> 
+<div id="presignedurl"></div> 
+<div id="presignedurlstatus"></div> 
+<div id="form-response"></div> 
+<button class="btn btn-lg btn-primary btn-block" id="submit" type="submit" style="background-color:#28547C;">upload</button>
+<div>
+            <input type="file" id="file" name="file" />
+            <input type="button" class="button" value="upload" id="upload">
+</div>
+</form>
