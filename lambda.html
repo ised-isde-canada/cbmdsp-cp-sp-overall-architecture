@@ -12,8 +12,9 @@ $(document).ready(function() {
 	    // get presigned url - turn on/deploy CORS on the APIGW end
 
 	    $.ajax({                     
-	            type: "GET",                     
-	            url: 'https://kvzryfi6hc.execute-api.us-west-2.amazonaws.com/test',  
+	            type: "GET", 
+	            url: 'https://e0r25oiut3.execute-api.ca-central-1.amazonaws.com/test/',
+	            //url: 'https://kvzryfi6hc.execute-api.us-west-2.amazonaws.com/test',  
 	            contentType: 'application/json',
 	                success: function(res){   
 	                	presigned=res.upload_url;
