@@ -3,9 +3,11 @@ builds/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+# AWS
+/aws-sam/.aws-sam/
 ### STS ###
 .apt_generated
-#.classpath
+.classpath
 .factorypath
 .project
 .settings
