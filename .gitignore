@@ -3,6 +3,7 @@ builds/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+# comment
 # AWS
 /aws-sam/.aws-sam/
 ### STS ###
