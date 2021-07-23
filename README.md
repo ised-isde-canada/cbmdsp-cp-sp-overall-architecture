@@ -10,9 +10,9 @@ Issues (sort by task/epic title prefix): https://github.com/ised-isde-canada/cbm
 code: https://github.com/ised-isde-canada/cbmdsp-cp-sp-overall-architecture
 
 
-Internal only
+Internal only - wiki
 https://wiki.ised-isde.canada.ca/display/DTSSBLSD/Cloud+Native+Development#CloudNativeDevelopment-RunaSpringBootDockerContainer
 
-# URLs
+# URLs 
 http://cbmdsp-cp-sp-overall-architecture-cb-cbmdsp-dev.apps.ocp.dev.ised-isde.canada.ca/swagger-ui.html#/health-api-controller/health
 
