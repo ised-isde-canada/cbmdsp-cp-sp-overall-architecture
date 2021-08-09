@@ -22,9 +22,9 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        new SpringApplication(OpenAPI2SpringBoot.class).run(args);
-    }
+//    public static void main(String[] args) throws Exception {
+//        new SpringApplication(OpenAPI2SpringBoot.class).run(args);
+//    }
 
     static class ExitException extends RuntimeException implements ExitCodeGenerator {
         private static final long serialVersionUID = 1L;
