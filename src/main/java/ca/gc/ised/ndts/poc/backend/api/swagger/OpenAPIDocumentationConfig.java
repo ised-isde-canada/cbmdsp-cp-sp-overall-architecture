@@ -17,16 +17,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.ServletContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-03T11:23:46.546156-05:00[America/Toronto]")
-
 @Configuration
 @EnableSwagger2
 public class OpenAPIDocumentationConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("backend ATB stub")
-            .description("backend ATB stub")
+            .title("backend stub")
+            .description("backend stub")
             .license("")
             .licenseUrl("http://unlicense.org")
             .termsOfServiceUrl("")
@@ -36,7 +34,8 @@ public class OpenAPIDocumentationConfig {
     }
 
     @Bean
-    public Docket customImplementation(ServletContext servletContext, @Value("${openapi.backendATBStub.base-path:/v1}") String basePath) {
+    public Docket customImplementation(ServletContext servletContext, 
+    		@Value("${openapi.backendATBStub.base-path:/v1}") String basePath) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("ca.gc.ised.ndts.poc.backend.api"))

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Home redirection to OpenAPI api documentation
  */
-@Controller
+//@Controller
 public class HomeController {
 
-    @RequestMapping("/")
+    //@RequestMapping("/")
     public String index() {
         return "redirect:swagger-ui.html";
     }

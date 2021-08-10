@@ -1,23 +1,19 @@
 package ca.gc.ised.ndts.poc.backend.api.model;
 
-import java.util.Objects;
-import ca.gc.ised.ndts.poc.backend.api.model.Health;
-import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
-import java.util.List;
-import org.openapitools.jackson.nullable.JsonNullable;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.util.Objects;
+
+import io.swagger.annotations.ApiModel;
 
 /**
  * data elements related health
  */
 @ApiModel(description = "data elements related health")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-03T11:23:46.546156-05:00[America/Toronto]")
-
 public class HealthList extends ArrayList<Health>  {
 
-  @Override
+	private static final long serialVersionUID = 1L;
+
+@Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;

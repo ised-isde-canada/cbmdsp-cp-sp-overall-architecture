@@ -1,23 +1,18 @@
 package ca.gc.ised.ndts.poc.backend.api;
 
-import ca.gc.ised.ndts.poc.backend.api.model.Health;
-import io.swagger.annotations.*;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import ca.gc.ised.ndts.poc.backend.api.model.Health;
 
 /**
  * A delegate to be called by the {@link HealthApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-03T11:23:46.546156-05:00[America/Toronto]")
-
 public interface HealthApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
