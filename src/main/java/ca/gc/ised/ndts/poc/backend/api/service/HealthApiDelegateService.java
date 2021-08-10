@@ -16,4 +16,8 @@ public class HealthApiDelegateService implements HealthApiDelegate {
 		health.setValue("ok");
 		return ResponseEntity.ok(health);
 	}
+	
+	public ResponseEntity<Health> healthDefault() {
+		return HealthApiDelegate.super.health();
+	}
 }
