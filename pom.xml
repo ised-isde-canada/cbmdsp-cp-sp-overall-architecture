@@ -47,10 +47,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-        <dependency>
+        <!-- CVE-2021-22119 dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-        </dependency>
+        </dependency-->
 
         <!--SpringFox dependencies -->
         <dependency>
