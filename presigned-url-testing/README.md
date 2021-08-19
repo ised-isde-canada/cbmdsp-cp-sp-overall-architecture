@@ -1,5 +1,5 @@
 # Pre-Signed URL Proxy
-This code creates an API Gateway designed to act as an S3 pre-signed URL generator for public clients that do not have AWS credentials, so they can upload objects to an S3 bucket. There is a sample client script which can be used to interact with the API.
+This code creates an API Gateway designed to act as an S3 pre-signed URL generator for public clients that need to upload files to S3, but do not have AWS credentials. Clients can request a new multipart upload be created, request pre-signed URLs for each part of the object (as many as they need), and then complete the upload once all pieces have been uploaded. There is a sample client script which can be used to test the API.
 
 ## Deploying the CFN template
 ### Prerequisites
@@ -30,7 +30,9 @@ This will deploy all stacks in the `cfn-cli.yaml` file.
 
 ## Testing
 ### Prerequisites
-To use the testing file in `upload-client`, you will need Python (preferably >=3.0) and pip installed. Once installed, run `pip install requests` to install the requests package which the test script uses.
+To use `upload-client/upload_file.py`, you will need Python (preferably >=3.0) and pip installed on your local machine. Once installed, run `pip install requests` to install the requests package which the test script uses.
+
+You also need to update one line in `upload_file.py`. The `upload_portal_url` on line 10 must be updated to be the value of `UploadPortalApi`, which is a value output from your CloudFormation template once it is deployed. You can view CloudFormation outputs in the console. Click the stack, then select the Outputs tab. 
 ### Running the test script
 You will need to provide a test file to upload. Add the file to the `upload-client` directory, then run the script using:
 ```
