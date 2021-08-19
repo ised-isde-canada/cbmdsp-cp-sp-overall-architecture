@@ -1,0 +1,19 @@
+Version: 3
+
+Blueprints:
+  Api:
+    Region: ca-central-1
+    Template: upload-portal-api/build/template.yaml
+    Capabilities: [CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND]
+    Package: true
+    Parameters:
+      Application: mp-upload-api
+  
+Stages:
+  dev:
+    Api:
+      Extends: Api
+      StackName: mp-upload-api-dev
+      Parameters:
+        Environment: dev
+        UploadPortalBucket: bfannin-presigned-url-testing

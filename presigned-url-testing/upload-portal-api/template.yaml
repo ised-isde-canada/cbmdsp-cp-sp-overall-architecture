@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  upload-portal-api
+
+  SAM Template for the Upload Portal API
+
+Parameters:
+  UploadPortalBucket:
+    Type: String
+    Description: S3 bucket to store uploads
+  Application:
+    Type: String
+  Environment:
+    Type: String
+    Default: "dev"
+
+Resources:
+  RestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub "${Application}-${Environment}-api"
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      FailOnWarnings: true
+
+  ProxyResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId: !Ref RestApi
+      ParentId: !GetAtt 
+        - RestApi
+        - RootResourceId
+      PathPart: '{proxy+}'
+
+  ProxyResourceANY:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      RestApiId: !Ref RestApi
+      ResourceId: !Ref ProxyResource
+      HttpMethod: ANY
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub >-
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UploadPortalFunction.Arn}/invocations
+
+  ApiStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId: !Ref RestApi
+      StageName: !Ref Environment
+      DeploymentId: !Ref ApiDeployment
+      MethodSettings:
+        - ResourcePath: "/*"
+          HttpMethod: "*"
+          MetricsEnabled: true
+          DataTraceEnabled: false
+
+  ApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId: !Ref RestApi
+      StageName: DummyStage
+    DependsOn:
+      - ProxyResourceANY
+
+  UploadPortalLambdaPermissions:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt UploadPortalFunction.Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*'
+
+  UploadPortalFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: UploadPortalWriteAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:CreateMultipartUpload
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:CompleteMultipartUpload
+                Resource: 
+                  - !Sub 'arn:aws:s3:::${UploadPortalBucket}/*'
+
+  UploadPortalFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Timeout: 10
+      Code: ./lambda/
+      Role: !GetAtt UploadPortalFunctionRole.Arn
+      Environment:
+        Variables:
+          UploadPortalBucket: !Ref UploadPortalBucket
+
+Outputs:
+  UploadPortalApi:
+    Description: "API Gateway endpoint URL for Upload Portal"
+    Value: !Sub "https://${RestApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/"
+  ApiArn:
+    Value: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${RestApi}/stages/${Environment}"
