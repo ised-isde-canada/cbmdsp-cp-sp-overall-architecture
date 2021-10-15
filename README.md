@@ -16,3 +16,4 @@ https://wiki.ised-isde.canada.ca/display/DTSSBLSD/Cloud+Native+Development#Cloud
 # URLs 
 http://cbmdsp-cp-sp-overall-architecture-cb-cbmdsp-dev.apps.ocp.dev.ised-isde.canada.ca/swagger-ui.html#/health-api-controller/health
 
+### Issue #18 assign to yapengwu@aws
