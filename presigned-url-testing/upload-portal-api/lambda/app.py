@@ -3,10 +3,18 @@ import os
 import json
 from aws_lambda_powertools import Logger
 from aws_lambda_powertools.logging import correlation_paths
-from aws_lambda_powertools.event_handler.api_gateway import ApiGatewayResolver, Response
+from aws_lambda_powertools.event_handler.api_gateway import ApiGatewayResolver, Response, CORSConfig
 
 logger = Logger()
-app = ApiGatewayResolver()
+cors_config = CORSConfig(
+    allow_origin="*",
+    expose_headers=["x-exposed-response-header"],
+    allow_headers=["x-custom-request-header"],
+    max_age=100,
+    allow_credentials=True,
+)
+app = ApiGatewayResolver(cors=cors_config)
+#app = ApiGatewayResolver( debug=True )
 s3_client = boto3.client('s3')
 upload_portal_bucket = os.environ['UploadPortalBucket']
 
@@ -15,7 +23,7 @@ upload_portal_bucket = os.environ['UploadPortalBucket']
 #   "fileName": "user/somefile.json"
 # }
 
-@app.post("/initiate-mp-upload")
+@app.post("/initiate-mp-upload", cors=True)
 def initiate_upload():
   json_payload = app.current_event.json_body
 
@@ -26,12 +34,7 @@ def initiate_upload():
     Key=file_name
   )
 
-  return Response(status_code=200,
-    content_type='application/json',
-    body=json.dumps({
-        "uploadId": res['UploadId']
-    })
-  )
+  return {'uploadId': res['UploadId']}
 
 
 
@@ -42,7 +45,7 @@ def initiate_upload():
 #   "partNumber": 1
 # }
 
-@app.post("/generate-presigned-url")
+@app.post("/generate-presigned-url", cors=True)
 def generate_presigned_url():
   json_payload = app.current_event.json_body
 
@@ -68,7 +71,7 @@ def generate_presigned_url():
 #   "parts": "array of parts"
 # }
 
-@app.post("/complete-mp-upload")
+@app.post("/complete-mp-upload", cors=True)
 def complete_upload():
   json_payload = app.current_event.json_body
 
