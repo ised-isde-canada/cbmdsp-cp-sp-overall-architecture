@@ -8,7 +8,9 @@ This code creates a demo Javascript Library to interact with Pre-Signed URL Prox
 
 To deploy this solution, you will need to ensure:
 
-* Lambda function has been deployed, please refer to [this document](../README.md).
+* `upload-portal-api` has been deployed, please refer to [this document](../README.md).
+
+* After `upload-portal-api` is deployed, please change the invoke URL in [app.js](./app.js).
 
 * S3 bucket has been created. please ensure the [CORS configuration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) has been setup properly. An example of CORS configuration is ass following:
 
